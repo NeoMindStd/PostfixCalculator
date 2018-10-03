@@ -1,4 +1,4 @@
-package calculator;
+package postfixCalculator;
 
 import java.util.Scanner;
 

@@ -1,4 +1,4 @@
-package calculator;
+package postfixCalculator;
 
 public class Postfix {
 
