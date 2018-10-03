@@ -34,8 +34,8 @@ public class Calculator {
 	protected static void OperatorStack(
 			@NotNull DataStack postfix, @NotNull char operator, @NotNull char[] postExp)
 	{
-		if((!postfix.IsEmpty()) && ((isWhatType(postfix.Peek()) == LEFT_BRACKET ? 
-				LEFT_BRACKET-GAP : isWhatType(postfix.Peek())) >= isWhatType(operator))) {
+		if((!postfix.IsEmpty()) && ((IsWhatType(postfix.Peek()) == LEFT_BRACKET ? 
+				LEFT_BRACKET-GAP : IsWhatType(postfix.Peek())) >= IsWhatType(operator))) {
 			postExp[ArraySize(postExp)] = postfix.Pop();
 			OperatorStack(postfix, operator, postExp);
 		}
@@ -50,7 +50,7 @@ public class Calculator {
 		
 		for(int i = 0; i < infix.length; i++) {
 			try {
-				switch(isWhatType(infix[i])) {
+				switch(IsWhatType(infix[i])) {
 				case END :
 					i = infix.length;
 					break;
@@ -83,7 +83,7 @@ public class Calculator {
 		}
 	}
 	
-	protected static int isWhatType(char c)
+	protected static int IsWhatType(char c)
 	{
 		if ((c  >= '0') && (c <= '9')) {
 			return OPERAND;
@@ -111,6 +111,62 @@ public class Calculator {
 		}
 	}
 	
+	protected static double Calculate(char[] postExp)
+	{
+		DataStack calcStack = new DataStack(EXPRESSION_SIZE);
+		
+		char c;
+		double or1, or2;
+		int postfixSize = ArraySize(postExp);
+		for(int i = 0; i < postfixSize; i++) {
+			c = postExp[i];
+			switch(IsWhatType(c)) {
+			case END :
+			case NULL_CHAR :
+				break;
+			case SPACE :
+				continue;
+			case LEFT_BRACKET :
+				break;
+			case RIGHT_BRACKET : 
+				break;
+			case OPERAND : 
+				calcStack.Push(c);
+				break;
+			case OPERATOR_PM : 
+			case OPERATOR_MD : 
+			case OPERATOR_P :
+				or2 = Double.parseDouble(String.valueOf(calcStack.Pop()));
+				or1 = Double.parseDouble(String.valueOf(calcStack.Pop()));
+				switch(c) {
+				case '+' :
+					calcStack.Push(Double.toString(or1 + or2).toCharArray()[0]);
+					break;
+				case '*' :
+					calcStack.Push(Double.toString(or1 * or2).toCharArray()[0]);
+					break;
+				case '-' :
+					calcStack.Push(Double.toString(or1 - or2).toCharArray()[0]);
+					break;
+				case '/' :
+					calcStack.Push(Double.toString(or1 / or2).toCharArray()[0]);
+					break;
+				case '^' :
+					calcStack.Push(Double.toString(Math.pow(or1, or2)).toCharArray()[0]);
+					break;
+				}
+				break;
+			case UNDEFINED :
+				System.out.println("A undefined character was input.");
+				System.exit(1);
+			default : 
+				System.out.println("An error has been occured at Getter() in Calculator.java");
+				System.exit(1);
+			}
+		}
+		return Double.parseDouble(String.valueOf(calcStack.Pop()));
+	}
+	
 	public static void main(String[] args)
 	{
 		DataStack postfix = new DataStack(EXPRESSION_SIZE);
@@ -124,5 +180,6 @@ public class Calculator {
 		
 		System.out.println();
 		System.out.print("\nResult : ");
+		System.out.println(Calculate(postExp));
 	}
 }
