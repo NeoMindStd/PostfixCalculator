@@ -5,46 +5,40 @@ import com.sun.istack.internal.NotNull;
 public class DataStack 
 {	
 	// Constants
-	protected final static char NULL_CHAR = '\0';
-	//protected final static int STACK_SIZE = 100;
+	// protected final static char NULL_CHAR = '\0';
+	// protected final static int STACK_SIZE = 100;
 	
 	// Variables
 	protected int mTop = -1;
 	protected int mStackSize = 0;
-	private char[] mStack = null;
+	private String[] mStack = null;
 	
 	public DataStack(int size) 
 	{
 		this.mStackSize = size;
-		mStack = new char[mStackSize];
+		mStack = new String[mStackSize];
 	}
 	
-	public void Push(@NotNull char data)
+	public void Push(@NotNull String data)
 	{
 		try {
 			if(mTop < mStackSize-1) {	
 				mStack[++mTop] = data;
 			}
 		} catch(Exception e) {
-			//e.printStackTrace();
-			//System.out.println("Stack is full!");
-			//throw e;
 		}
 		return;
 	}
 	
-	public char Pop()
+	public String Pop()
 	{
 		try {
 			if(!IsEmpty()) {
 				return mStack[mTop--];
 			}
 		} catch(Exception e) {
-			//e.printStackTrace();
-			//System.out.println("Stack is Empty!");
-			//throw e;
 		}
-		return NULL_CHAR;
+		return " ";
 	}
 	
 	public boolean IsEmpty()
@@ -59,25 +53,19 @@ public class DataStack
 				mTop--;
 			}
 		} catch(Exception e) {
-			//e.printStackTrace();
-			//System.out.println("Stack is Empty!");
-			//throw e;
 		}
 		return;
 	}
 
-	public char Peek()
+	public String Peek()
 	{
 		try {
 			if(!IsEmpty()) {
 				return mStack[mTop];
 			}
 		} catch(Exception e) {
-			//e.printStackTrace();
-			//System.out.println("Stack is Empty!");
-			//throw e;
 		}
-		return NULL_CHAR;
+		return " ";
 	}
 
 	public int GetSize()
