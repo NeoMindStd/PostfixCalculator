@@ -59,7 +59,13 @@ public class Calculator {
 				case LEFT_BRACKET :
 					OperatorStack(postfix, infix[i], postExp); // postfix is called by reference.
 					break;
-				case RIGHT_BRACKET : 
+				case RIGHT_BRACKET :
+					char c;
+					while(true) {
+						c = postfix.Pop();
+						if(IsWhatType(c) == LEFT_BRACKET) break;
+						postExp[ArraySize(postExp)] = c;
+					}
 					break;
 				case OPERAND :
 					postExp[ArraySize(postExp)] = infix[i];
